@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisah Kita</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d8bb85; /* Light background color for the whole page */
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+        header .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav ul li {
+            display: inline;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        section {
+            display: none; /* Hide all sections initially */
+            padding: 20px;
+        }
+        section.active {
+            display: block; /* Show only the active section */
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-container button:hover {
+            background-color: #218838;
+        }
+        .form-message {
+            text-align: center;
+            margin-top: 10px;
+            color: red;
+        }
+        .form-message.success {
+            color: green;
+        }
+        .form-container p {
+            text-align: center;
+        }
+        .form-container a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .form-container a:hover {
+            text-decoration: underline;
+        }
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .shop-item {
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 15px;
+            background-color: #bd8f2b;
+            border-radius: 8px;
+        }
+        .shop-item img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .shop-item p {
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .btn {
+            display: block;
+            margin: 5px 0;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .btn.add-to-cart {
+            background-color: #28a745;
+        }
+        .btn.view-details {
+            background-color: #007bff;
+        }
+        /* Additional styles for product detail section */
+        .product-detail {
+            width: 80%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fdbc72;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .product-detail h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .product-image {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .rating {
+            margin-bottom: 20px;
+        }
+        .rating span {
+            font-size: 1.5rem;
+            color: #ff00c8;
+        }
+        .rating p {
+            font-size: 1rem;
+            color: #777;
+        }
+        .price {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .product-detail p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .product-detail {
+                width: 90%;
+                padding: 15px;
+            }
+            .product-detail h1 {
+                font-size: 2rem;
+            }
+            .price {
+                font-size: 1.3rem;
+            }
+            .product-detail p {
+                font-size: 1rem;
+            }
+            .btn {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Kisah Kita Logo">
+            <span>Kisah Kita</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" data-section="home">Home</a></li>
+                <li><a href="#" data-section="about">About</a></li>
+                <li><a href="#" data-section="shop">Shop</a></li>
+                <li><a href="#" data-section="contact">Contact</a></li>
+                <li><a href="#" data-section="cart"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+
+
+ <!-- Home Section -->
+<section id="home" class="active" style="background-image: url('path_to_your_image.jpg'); background-size: cover; background-position: center; color: white; text-align: center; padding: 100px 20px; position: relative; overflow: hidden;">
+    <h1 style="font-family: 'Sacramento', cursive; font-size: 4rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.5);">Welcome to Kisah Kita</h1>
+    <p style="font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 500;">Beautiful bouquets for every occasion.</p>
+    <a href="#products" style="text-decoration: none; background-color: #ff6f61; color: white; padding: 15px 30px; font-size: 1.2rem; border-radius: 5px; transition: background-color 0.3s;">
+        Explore Our Bouquets
+    </a>
+
+    <!-- Gambar Slide yang bergerak ke pinggir -->
+    <div class="image-slide" id="image1" style="background-image: url('https://down-id.img.susercontent.com/file/724f41274da75739d8e289a07c94c1a1');"></div>
+    <div class="image-slide" id="image2" style="background-image: url('https://bincangsyariah.com/wp-content/uploads/2024/01/brd-44261_buket-uang-asli-buket-bunga-uang-kertas-asli-money-bouquet-6jt-s-d-10-5jt_full01-8d46c5af.jpg');"></div>
+    <div class="image-slide" id="image3" style="background-image: url('https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/7/6f050dbb-2b0b-4463-841c-5124ae46350e.jpg');"></div>
+    <div class="image-slide" id="image4" style="background-image: url('https://images.tokopedia.net/img/cache/700/VqbcmM/2023/3/18/6f76e5cc-f09d-44e6-b983-4dd2a77d756e.jpg');"></div>
+    <div class="image-slide" id="image5" style="background-image: url('https://images.tokopedia.net/img/cache/700/VqbcmM/2022/10/24/358215a6-595f-4a43-b10c-3ad223a91684.jpg');"></div>
+</section>
+
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="about-content">
+            <div class="text-content">
+                <h1>About <span>Kisah Kita</span></h1>
+                <p><strong>Filosofi Merk</strong><br>
+                    Kata "KISAH KITA" menceritakan perjalanan cinta dua insan yang mengikat janji dengan satu langkah terakhir, pembuktian seorang laki-laki membawa keluarga beserta hantaran menuju kediaman wanita lah menjadi satu titik pasti.
+                </p>
+                <h2>Visi</h2>
+                <p>"Kisah Kita menjadi label perusahaan jasa terbaik di Garut tahun 2023"</p>
+                <h2>Misi</h2>
+                <ul>
+                    <li>Memberikan kepuasan kepada pelanggan dengan mewujudkan hantaran pernikahan impian.</li>
+                    <li>Bekerja sama dengan wedding organizer di Kabupaten Garut.</li>
+                    <li>Membangun relasi di intra kampus maupun ekstra kampus.</li>
+                </ul>
+                <h2>Tentang Perusahaan</h2>
+                <address>
+                    <strong>Alamat:</strong> Jl. Padasari RT 02/RW 07, Desa Cinunuk, Garut, Jawa Barat, 44180<br>
+                    <strong>Telepon/WA:</strong> 0895-1212-1829<br>
+                    <strong>Email:</strong> Payuni262@gmail.com<br>
+                    <strong>Instagram:</strong> <a href="https://instagram.com/2K.Kisah_Kita" target="_blank">@2K.Kisah_Kita</a><br>
+                    <strong>TikTok:</strong> <a href="https://www.tiktok.com/@2k.kisahkita?_t=ZS-8tPy9o67e5A&_r=1" target="_blank"> @2k.kisahkita</a><br>
+                    <strong>YouTube:</strong> KisahKitaGarut
+                </address>
+            </div>
+            <div class="image-content">
+                <img src="about.png" alt="About Kisah Kita" style="width: 2%; max-width: 1px; height: auto; margin: 0 auto; display: block;">
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop Section -->
+    <section id="shop">
+        <h1>Shop Our Bouquets</h1>
+        <div class="shop-grid">
+            <div class="shop-item">
+                <img src="https://down-id.img.susercontent.com/file/724f41274da75739d8e289a07c94c1a1" alt="Romantic Rose">
+                <p>Romantic Rose</p>
+                <button class="btn add-to-cart" data-product="Romantic Rose" data-price="150">Add to Cart</button>
+                <a href="javascript:void(0)" class="btn view-details" onclick="viewProductDetails('romantic-rose')">View Details</a>
+            </div>
+            <div class="shop-item">
+                <img src="https://down-id.img.susercontent.com/file/f3acb14017baf9cd894ccc192a438683" alt="Edelweis Bouquet">
+                <p>Edelweis Bouquet</p>
+                <button class="btn add-to-cart" data-product="Edelweis Bouquet" data-price="200">Add to Cart</button>
+                <a href="javascript:void(0)" class="btn view-details" onclick="viewProductDetails('edelweis-bouquet')">View Details</a>
+            </div>
+            <div class="shop-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLecFvG381bqCGSuGAQpoFJjtGAzXaH_XR-W0oldmSngSNKkPh2MjjOoJJdTXZqnL7cv0&usqp=CAU" alt="KPop Style Bouquet">
+                <p>KPop Style Bouquet</p>
+                <button class="btn add-to-cart" data-product="Kpop Style Bouquet" data-price="500">Add to Cart</button>
+                <a href="javascript:void(0)" class="btn view-details" onclick="viewProductDetails('kpop-style-bouquet')">View Details</a>
+            </div>
+            <div class="shop-item">
+                <img src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2022/8/20/a9de2a0b-c404-4cd0-9f60-5402a32b35a0.jpg" alt="Graduation Bouquet">
+                <p>Graduation Bouquet</p>
+                <button class="btn add-to-cart" data-product="Graduation Bouquet" data-price="220">Add to Cart</button>
+                <a href="javascript:void(0)" class="btn view-details" onclick="viewProductDetails('graduation-bouquet')">View Details</a>
+            </div>
+            <div class="shop-item">
+                <img src="https://images.tokopedia.net/img/cache/700/VqbcmM/2020/10/7/0a87c859-7841-4a2d-b7d6-ec59170d49ad.jpg" alt="Sunflower Delight">
+                <p>Sunflower Delight</p>
+                <button class="btn add-to-cart" data-product="Sunflower Delight" data-price="170">Add to Cart</button>
+                <a href="javascript:void(0)" class="btn view-details" onclick="viewProductDetails('sunflower-delight')">View Details</a>
+            </div>
+            <div class="shop-item">
+                <img src="https://images.tokopedia.net/img/cache/700/VqbcmM/2023/4/22/f66b336a-8615-4288-afb9-8bd9b82fa795.jpg" alt="Elegant Lily Bouquet">
+                <p>Elegant Lily Bouquet</p>
+                <button class="btn add-to-cart" data-product="Elegant Lily Bouquet" data-price="250">Add to Cart</button>
+                <a href="javascript:void(0)" class="btn view-details" onclick="viewProductDetails('elegant-lily-bouquet')">View Details</a>
+            </div>
+            <div class="shop-item">
+                <img src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2023/5/28/cd66dc9e-8320-43c6-90a6-445dda507ec9.jpg" alt="Pastel Tulip Bouquet">
+                <p>Pastel Tulip Bouquet</p>
+                <button class="btn add-to-cart" data-product="Pastel Tulip Bouquet" data-price="160">Add to Cart</button>
+                <a href="javascript:void(0)" class="btn view-details" onclick="viewProductDetails('pastel-tulip-bouquet')">View Details</a>
+            </div>
+            <div class="shop-item">
+                <img src="https://down-id.img.susercontent.com/file/id-11134207-7r98q-lxm3es07wt5630" alt="Romantic Peony">
+                <p>Romantic Peony</p>
+                <button class="btn add-to-cart" data-product="Romantic Peony" data-price="190">Add to Cart</button>
+                <a href="javascript:void(0)" class="btn view-details" onclick="viewProductDetails('romantic-peony')">View Details</a>
+            </div>
+            <div class="shop-item">
+                <img src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/7/4/fe697142-071b-4e96-8a31-6fa79b883fe7.jpg" alt="Rustic Daisy Bouquet">
+                <p>Rustic Daisy Bouquet</p>
+                <button class="btn add-to-cart" data-product="Rustic Daisy Bouquet" data-price="210">Add to Cart</button>
+                <a href="javascript:void(0)" class="btn view-details" onclick="viewProductDetails('rustic-daisy-bouquet')">View Details</a>
+            </div>
+            <div class="shop-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWCIeJQ5d1JXCzBt4c0u5pCaXMEtJasRyAjA&s" alt="Baby's Breath">
+                <p>Baby's Breath</p>
+                <button class="btn add-to-cart" data-product="Baby's Breath" data-price="130">Add to Cart</button>
+                <a href="javascript:void(0)" class="btn view-details" onclick="viewProductDetails('babys-breath')">View Details</a>
+            </div>
+            <div class="shop-item">
+                <img src="https://down-id.img.susercontent.com/file/ef363f330ee70f485d7d8a5b0ca14151" alt="Food Bouquet">
+                <p>Food Bouquet</p>
+                <button class="btn add-to-cart" data-product="Food Bouquet" data-price="300">Add to Cart</button>
+                <a href="javascript:void(0)" class="btn view-details" onclick="viewProductDetails('food-bouquet')">View Details</a>
+            </div>
+            <div class="shop-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDry-iNW0y7REl_s9KQbqRdBYyznXI7u4sqQ&s" alt="Money Bouquet">
+                <p>Money Bouquet</p>
+                <button class="btn add-to-cart" data-product="Money Bouquet" data-price="350">Add to Cart</button>
+                <a href="javascript:void(0)" class="btn view-details" onclick="viewProductDetails('money-bouquet')">View Details</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Detail Sections -->
+    <!-- Product Detail Section for Romantic Rose -->
+    <section id="romantic-rose" class="product-detail">
+    <h1>Romantic Rose</h1>
+    <img src="https://down-id.img.susercontent.com/file/724f41274da75739d8e289a07c94c1a1" alt="Romantic Rose" class="product-image">
+    <p class="price">Price: $150</p>
+    <div class="rating">
+        <span>☆☆☆☆☆</span> <!-- Example of 4-star rating -->
+        <p>(100 Reviews)</p>
+    </div>
+    <p>Description: A beautiful bouquet of roses perfect for romantic occasions. Ideal for expressing love and admiration.</p>
+    <button class="btn add-to-cart" data-product="Romantic Rose" data-price="150">Add to Cart</button>
+    <a href="#shop" class="btn view-details" onclick="showShop()">Back to Shop</a>
+</section>
+
+
+   <!-- Product Detail Section for Edelweis Bouquet -->
+   <section id="edelweis-bouquet" class="product-detail">
+    <h1>Edelweis Bouquet</h1>
+     <img src="https://down-id.img.susercontent.com/file/f3acb14017baf9cd894ccc192a438683" alt="Edelweis Bouquet">
+     <p class="price">Price: $150</p>
+     <!-- Rating Section -->
+     <div class="rating">
+         <span>☆☆☆☆☆</span> <!-- Example of 4-star rating -->
+         <p>(120 Reviews)</p>
+     </div>
+    <p>Description: A stunning bouquet of Edelweiss flowers, symbolizing beauty and strength. Perfect for special occasions and gifts.</p>
+    <button class="btn add-to-cart" data-product="Edelweis Bouquet" data-price="200">Add to Cart</button>
+    <a href="#shop" class="btn view-details" onclick="showShop()">Back to Shop</a>
+</section>
+
+<!-- Product Detail Section for Kpop Style Bouquet -->
+<section id="kpop-style-bouquet" class="product-detail">
+    <h1>Kpop Style Bouquet</h1>
+     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLecFvG381bqCGSuGAQpoFJjtGAzXaH_XR-W0oldmSngSNKkPh2MjjOoJJdTXZqnL7cv0&usqp=CAU" alt="Kpop Style Bouquet">
+     <p class="price">Price: $500</p>
+     <!-- Rating Section -->
+     <div class="rating">
+         <span>☆☆☆☆☆</span> <!-- Example of 5-star rating -->
+         <p>(150 Reviews)</p>
+     </div>
+     <p>Description: A trendy bouquet inspired by KPop culture, featuring vibrant colors and unique arrangements.</p>
+    <button class="btn add-to-cart" data-product="Kpop Style Bouquet" data-price="500">Add to Cart</button>
+    <a href="#shop" class="btn view-details" onclick="showShop()">Back to Shop</a>
+</section>
+
+<!-- Product Detail Section for Graduation Bouquet -->
+<section id="graduation-bouquet" class="product-detail">
+    <h1>Graduation Bouquet</h1>
+     <img src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2022/8/20/a9de2a0b-c404-4cd0-9f60-5402a32b35a0.jpg" alt="Graduation Bouquet">
+     <p class="price">Price: $220</p>
+     <!-- Rating Section -->
+     <div class="rating">
+         <span>☆☆☆☆☆</span> <!-- Example of 5-star rating -->
+         <p>(200 Reviews)</p>
+     </div>
+     <p>Description: Celebrate achievements with this beautiful graduation bouquet, perfect for the special day.</p>
+    <button class="btn add-to-cart" data-product="Graduation Bouquet" data-price="220">Add to Cart</button>
+    <a href="#shop" class="btn view-details" onclick="showShop()">Back to Shop</a>
+</section>
+
+   <!-- Product Detail Section for Sunflower Delight -->
+    <section id="sunflower-delight" class="product-detail">
+        <h1>Sunflower Delight</h1>
+        <img src="https://images.tokopedia.net/img/cache/700/VqbcmM/2020/10/7/0a87c859-7841-4a2d-b7d6-ec59170d49ad.jpg" alt="Sunflower Delight">
+        <p class="price">Price: $170</p>
+         <!-- Rating Section -->
+     <div class="rating">
+        <span>☆☆☆☆☆</span> <!-- Example of 5-star rating -->
+        <p>(200 Reviews)</p>
+    </div>
+        <p>Description: A cheerful bouquet of sunflowers, perfect for brightening someone's day.</p>
+        <button class="btn add-to-cart" data-product="Sunflower Delight" data-price="170">Add to Cart</button>
+        <a href="#shop" class="btn view-details" onclick="showShop()">Back to Shop</a>
+    </section>
+
+     <!-- Product Detail Section for Elegant Lily Bouquet -->
+    <section id="elegant-lily-bouquet" class="product-detail">
+        <h1>Elegant Lily Bouquet</h1>
+        <img src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2023/5/28/cd66dc9e-8320-43c6-90a6-445dda507ec9.jpg" alt="Pastel Tulip Bouquet">
+        <p class="price">Price: $250</p>
+         <!-- Rating Section -->
+         <div class="rating">
+            <span>☆☆☆☆☆</span> <!-- Example of 5-star rating -->
+            <p>(200 Reviews)</p>
+        </div>
+        <p>Description: An elegant arrangement of lilies, perfect for formal occasions and celebrations.</p>
+        <button class="btn add-to-cart" data-product="Elegant Lily Bouquet" data-price="250">Add to Cart</button>
+        <a href="#shop" class="btn view-details" onclick="showShop()">Back to Shop</a>
+    </section>
+
+         <!-- Product Detail Section for Pastel Tulips Bouquet -->
+    <section id="pastel-tulip-bouquet" class="product-detail">
+        <h1>Pastel Tulip Bouquet</h1>
+        <img src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2023/5/28/cd66dc9e-8320-43c6-90a6-445dda507ec9.jpg" alt="Pastel Tulip Bouquet">
+        <p class="price">Price: $160</p>
+        <!-- Rating Section -->
+        <div class="rating">
+            <span>☆☆☆☆☆</span> <!-- Example of 5-star rating -->
+            <p>(200 Reviews)</p>
+        </div>
+        <p>Description: A soft and beautiful bouquet of pastel tulips, perfect for springtime celebrations.</p>
+        <button class="btn add-to-cart" data-product="Pastel Tulip Bouquet" data-price="160">Add to Cart</button>
+        <a href="#shop" class="btn view-details" onclick="showShop()">Back to Shop</a>
+    </section>
+
+         <!-- Product Detail Section for Romantic Peony -->
+    <section id="romantic-peony" class="product-detail">
+        <h1>Romantic Peony</h1>
+        <img src="https://down-id.img.susercontent.com/file/id-11134207-7r98q-lxm3es07wt5630" alt="Romantic Peony">
+        <p class="price">Price: $190</p>
+        <!-- Rating Section -->
+        <div class="rating">
+            <span>☆☆☆☆☆</span> <!-- Example of 5-star rating -->
+            <p>(200 Reviews)</p>
+        </div>
+        <p>Description: A romantic bouquet of peonies, perfect for expressing love and affection.</p>
+        <button class="btn add-to-cart" data-product="Romantic Peony" data-price="190">Add to Cart</button>
+        <a href="#shop" class="btn view-details" onclick="showShop()">Back to Shop</a>
+    </section>
+
+         <!-- Product Detail Section for Rustic Daisy Bouquet -->
+    <section id="rustic-daisy-bouquet" class="product-detail">
+        <h1>Rustic Daisy Bouquet</h1>
+        <img src="https://images.tokopedia.net/img/cache/500-square/VqbcmM/2021/7/4/fe697142-071b-4e96-8a31-6fa79b883fe7.jpg" alt="Rustic Daisy Bouquet">
+        <p class="price">Price: $210</p>
+        <!-- Rating Section -->
+        <div class="rating">
+            <span>☆☆☆☆☆</span> <!-- Example of 5-star rating -->
+            <p>(200 Reviews)</p>
+        </div>
+        <p>Description: A charming rustic bouquet of daisies, perfect for casual gatherings and celebrations.</p>
+        <button class="btn add-to-cart" data-product="Rustic Daisy Bouquet" data-price="210">Add to Cart</button>
+        <a href="#shop" class="btn view-details" onclick="showShop()">Back to Shop</a>
+    </section>
+
+             <!-- Product Detail Section for Baby's Breath -->
+    <section id="babys-breath" class="product-detail">
+        <h1>Baby's Breath</h1>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWCIeJQ5d1JXCzBt4c0u5pCaXMEtJasRyAjA&s" alt="Baby's Breath">
+        <p class="price">Price: $130</p>
+        <!-- Rating Section -->
+        <div class="rating">
+            <span>☆☆☆☆☆</span> <!-- Example of 5-star rating -->
+            <p>(200 Reviews)</p>
+        </div>
+        <p>Description: A delicate bouquet of baby's breath, perfect for adding a touch of elegance to any arrangement.</p>
+        <button class="btn add-to-cart" data-product="Baby's Breath" data-price="130">Add to Cart</button>
+        <a href="#shop" class="btn view-details" onclick="showShop()">Back to Shop</a>
+    </section>
+
+        <!-- Product Detail Section for Food Bouquet -->
+    <section id="food-bouquet" class="product-detail">
+        <h1>Food Bouquet</h1>
+        <img src="https://down-id.img.susercontent.com/file/ef363f330ee70f485d7d8a5b0ca14151" alt="Food Bouquet">
+        <p class="price">Price: $300</p>
+        <!-- Rating Section -->
+        <div class="rating">
+            <span>☆☆☆☆☆</span> <!-- Example of 5-star rating -->
+            <p>(200 Reviews)</p>
+        </div>
+        <p>Description: A unique bouquet made of delicious treats, perfect for food lovers.</p>
+        <button class="btn add-to-cart" data-product="Food Bouquet" data-price="300">Add to Cart</button>
+        <a href="#shop" class="btn view-details" onclick="showShop()">Back to Shop</a>
+    </section>
+
+    <!-- Product Detail Section for Money Bouquet -->
+    <section id="money-bouquet" class="product-detail">
+        <h1>Money Bouquet</h1>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDry-iNW0y7REl_s9KQbqRdBYyznXI7u4sqQ&s" alt="Money Bouquet">
+        <p class="price">Price: $350</p>
+        <!-- Rating Section -->
+        <div class="rating">
+            <span>☆☆☆☆☆</span> <!-- Example of 5-star rating -->
+            <p>(200 Reviews)</p>
+        </div>
+        <p>Description: A creative bouquet made of money, perfect for gifting on special occasions.</p>
+        <button class="btn add-to-cart" data-product="Money Bouquet" data-price="350">Add to Cart</button>
+        <a href="#shop" class="btn view-details" onclick="showShop()">Back to Shop</a>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h1>Contact Us</h1>
+        <p>We would love to hear from you! Please fill out the form below or use the provided contact details to reach us.</p>
+        <div class="contact-details">
+            <p><strong>Email:</strong> Payuni262@gmail.com</p>
+            <p><strong>Phone:</strong> 0895-1212-1829</p>
+            <p><strong>Address:</strong> Jl. Padasari RT 02/RW 07, Desa Cinunuk, Garut, Jawa Barat, 44180</p>
+            <p><strong>Follow Us:</strong>
+                <a href="https://instagram.com/2K.Kisah_Kita" target="_blank">Instagram: @2k.kisah_kita</a> |
+                <a href="https://www.tiktok.com/@2k.kisahkita?_t=ZS-8tPy9o67e5A&_r=1" target="_blank">TikTok: @2k.kisahkita</a> |
+                YouTube: KisahKitaGarut
+            </p>
+        </div>
+        <form id="contact-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Your Email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+
+            <button class="btn" type="submit">Send Message</button>
+        </form>
+    </section>
+
+
+<!-- Cart Section -->
+<section id="cart" class="cart">
+    <h1>Your Shopping Cart</h1>
+    <div id="cart-items"></div> <!-- Cart items will be displayed here -->
+    <div id="cart-total" class="cart-total"></div> <!-- Total amount will be displayed here -->
+    <button class="btn checkout" onclick="showCheckout()">Proceed to Checkout</button>
+</section>
+
+  <!-- Checkout Section -->
+<section id="checkout" class="checkout" style="display: none;">
+    <h1>Checkout</h1>
+    <div id="order-summary"></div> <!-- Order summary will be displayed here -->
+
+    <h2>Payment Method</h2>
+    <form id="payment-form">
+        <div>
+            <label>
+                <input type="radio" name="payment-method" value="BRI" required>
+                Bank BRI
+            </label>
+            <label>
+                <input type="radio" name="payment-method" value="BCA">
+                Bank BCA
+            </label>
+            <label>
+                <input type="radio" name="payment-method" value="Mandiri">
+                Bank Mandiri
+            </label>
+            <label>
+                <input type="radio" name="payment-method" value="BNI">
+                Bank BNI
+            </label>
+            <label>
+                <input type="radio" name="payment-method" value="DANA">
+                DANA
+            </label>
+            <label>
+                <input type="radio" name="payment-method" value="OVO">
+                OVO
+            </label>
+            <label>
+                <input type="radio" name="payment-method" value="Gopay">
+                Gopay
+            </label>
+            <label>
+                <input type="radio" name="payment-method" value="Virtual Account">
+                Virtual Account
+            </label>
+        </div>
+
+        <h2>Shipping Address</h2>
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required>
+
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required>
+
+        <label for="zip">Zip Code:</label>
+        <input type="text" id="zip" name="zip" required>
+
+        <button type="submit" class="btn">Complete Purchase</button>
+    </form>
+
+    <div id="receipt" style="display: none;"></div> <!-- Receipt will be displayed here -->
+</section>
+
+    <footer>
+        <p>&copy; 2025 Kisah Kita | All rights reserved</p>
+    </footer>
+
+    <script>
+        // Initialize cart array from localStorage or start with an empty array if none exists
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        /**
+         * Function to add item to the cart.
+         * @param {string} product - The product name.
+         * @param {number} price - The price of the product.
+         */
+        function addToCart(product, price) {
+            const item = { product, price }; // Create a new item object
+            cart.push(item); // Add the item to the cart array
+            localStorage.setItem("cart", JSON.stringify(cart)); // Save the updated cart to localStorage
+            alert(product + " has been added to your cart!"); // Alert the user
+            updateCartDisplay(); // Update the cart display with the new item
+        }
+
+        // Add event listeners to all "Add to Cart" buttons
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const product = this.getAttribute('data-product'); // Get product name from button attribute
+                const price = parseFloat(this.getAttribute('data-price')); // Get price and convert it to a float
+                addToCart(product, price); // Call the addToCart function with product and price
+            });
+        });
+
+        /**
+         * Function to handle switching between sections when navigation links are clicked.
+         */
+        const navLinks = document.querySelectorAll('nav ul li a'); // Select all navigation links
+        const sections = document.querySelectorAll('section'); // Select all sections
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent the default anchor link behavior
+
+                const targetSection = this.getAttribute('data-section'); // Get the section ID from the data-section attribute
+
+                // Hide all sections by removing the "active" class
+                sections.forEach(section => section.classList.remove('active'));
+
+                // Show the target section by adding the "active" class to it
+                document.getElementById(targetSection).classList.add('active');
+            });
+        });
+
+        /**
+         * Function to display cart items in the cart section.
+         * This will show the cart items or a message if the cart is empty.
+         */
+        const cartItemsContainer = document.getElementById('cart-items'); // Select the element where cart items will be displayed
+        function updateCartDisplay() {
+            cartItemsContainer.innerHTML = ""; // Clear the current cart display
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+            } else {
+                cart.forEach((item, index) => {
+                    const cartItem = document.createElement("div");
+                    cartItem.className = "cart-item";
+                    cartItem.innerHTML = `
+                        <p>${item.product} - $${item.price}</p>
+                        <button class="btn remove-item" onclick="removeFromCart(${index})">Remove</button>
+                    `;
+                    cartItemsContainer.appendChild(cartItem); // Add the item to the cart display
+                });
+            }
+        }
+
+        /**
+         * Function to remove an item from the cart.
+         * @param {number} index - The index of the item to be removed.
+         */
+        function removeFromCart(index) {
+            cart.splice(index, 1); // Remove the item from the cart array
+            localStorage.setItem("cart", JSON.stringify(cart)); // Save the updated cart array to localStorage
+            updateCartDisplay(); // Update the cart display after removal
+            alert("Item removed from the cart!"); // Notify the user
+        }
+
+        // Initialize the cart display on page load
+        updateCartDisplay();
+
+        const links = document.querySelectorAll("nav ul li a");
+        links.forEach(link => {
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+                const sectionId = link.getAttribute("data-section");
+                document.querySelectorAll("section").forEach(section => {
+                    section.classList.remove("active");
+                });
+                document.getElementById(sectionId).classList.add("active");
+            });
+        });
+
+        // Function to show product details dynamically
+        function viewProductDetails(productId) {
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active'); // Hide all sections
+            });
+
+            // Show the specific product detail section
+            const productSection = document.getElementById(productId);
+            if (productSection) {
+                productSection.classList.add('active');
+            }
+        }
+
+        // Function to show back to shop view
+        function showShop() {
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            const shopSection = document.getElementById("shop");
+            if (shopSection) {
+                shopSection.classList.add('active');
+            }
+        }
+
+        // Function to show the checkout section
+function showCheckout() {
+    document.querySelectorAll('section').forEach(section => {
+        section.classList.remove('active');
+        section.style.display = 'none'; // Hide all sections
+    });
+
+    const checkoutSection = document.getElementById("checkout");
+    if (checkoutSection) {
+        checkoutSection.style.display = 'block'; // Show checkout section
+        updateOrderSummary(); // Update order summary
+    }
+}
+
+// Function to update the order summary
+function updateOrderSummary() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    const orderSummary = document.getElementById('order-summary');
+    orderSummary.innerHTML = ""; // Clear previous summary
+
+    if (cart.length === 0) {
+        orderSummary.innerHTML = "<p>Your cart is empty.</p>";
+    } else {
+        let total = 0;
+        cart.forEach(item => {
+            total += item.price;
+            orderSummary.innerHTML += `<p>${item.product} - $${item.price}</p>`;
+        });
+        orderSummary.innerHTML += `<p><strong>Total: $${total}</strong></p>`;
+    }
+}
+
+// Handle payment form submission
+document.getElementById('payment-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent default form submission
+
+    // Here you can add payment processing logic
+    const receipt = document.getElementById('receipt');
+    receipt.style.display = 'block'; // Show receipt section
+    receipt.innerHTML = "<h2>Receipt</h2>";
+    receipt.innerHTML += "<p>Thank you for your purchase!</p>";
+    receipt.innerHTML += "<h3>Order Summary:</h3>";
+    updateOrderSummary(); // Show order summary in receipt
+    receipt.innerHTML += "<h3>Shipping Address:</h3>";
+    receipt.innerHTML += `<p>${document.getElementById('address').value}, ${document.getElementById('city').value}, ${document.getElementById('zip').value}</p>`;
+
+    // Clear the cart after purchase
+    cart = [];
+    localStorage.setItem("cart", JSON.stringify(cart)); // Clear cart in localStorage
+    updateCartDisplay(); // Update cart display
+});
+
+// Function to update the cart display
+function updateCartDisplay() {
+    const cartItemsContainer = document.getElementById('cart-items'); // Select the element where cart items will be displayed
+    const cartTotalContainer = document.getElementById('cart-total'); // Select the element where total will be displayed
+    cartItemsContainer.innerHTML = ""; // Clear the current cart display
+    let total = 0; // Initialize total
+
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+        cartTotalContainer.innerHTML = ""; // Clear total if cart is empty
+    } else {
+        cart.forEach((item, index) => {
+            const cartItem = document.createElement("div");
+            cartItem.className = "cart-item";
+            cartItem.innerHTML = `
+                <p>${item.product} - $${item.price}</p>
+                <button class="btn remove-item" onclick="removeFromCart(${index})">Remove</button>
+            `;
+            cartItemsContainer.appendChild(cartItem); // Add the item to the cart display
+            total += item.price; // Add item price to total
+        });
+        cartTotalContainer.innerHTML = `<h3>Total: $${total.toFixed(2)}</h3>`; // Display total
+    }
+}
+
+// Function to handle payment form submission
+document.getElementById('payment-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent default form submission
+
+    // Get the selected payment method
+    const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+
+    // Here you can add payment processing logic
+    const receipt = document.getElementById('receipt');
+    receipt.style.display = 'block'; // Show receipt section
+    receipt.innerHTML = "<h2>Receipt</h2>";
+    receipt.innerHTML += "<p>Thank you for your purchase!</p>";
+    receipt.innerHTML += "<h3>Order Summary:</h3>";
+
+    // Show order summary in receipt
+    cart.forEach(item => {
+        receipt.innerHTML += `<p>${item.product} - $${item.price}</p>`;
+    });
+
+    receipt.innerHTML += `<h3>Total: $${total.toFixed(2)}</h3>`; // Display total in receipt
+    receipt.innerHTML += "<h3>Payment Method:</h3>";
+    receipt.innerHTML += `<p>${paymentMethod}</p>`; // Display selected payment method
+    receipt.innerHTML += "<h3>Shipping Address:</h3>";
+    receipt.innerHTML += `<p>${document.getElementById('address').value}, ${document.getElementById('city').value}, ${document.getElementById('zip').value}</p>`;
+
+    // Clear the cart after purchase
+    cart = [];
+    localStorage.setItem("cart", JSON.stringify(cart)); // Clear cart in localStorage
+    updateCartDisplay(); // Update cart display
+});
+
+// Show the relevant section based on user interaction
+function showSection(sectionId) {
+    document.querySelectorAll('section').forEach(section => {
+        section.classList.remove('active');
+    });
+    document.getElementById(sectionId).classList.add('active');
+
+    // Handle visibility of login/register/logout depending on login status
+    if (sectionId === 'login-section' || sectionId === 'register-section') {
+        document.getElementById('login-nav').style.display = 'none';
+        document.getElementById('register-nav').style.display = 'none';
+        document.getElementById('user-info').style.display = 'none';
+    } else {
+        if (localStorage.getItem('user')) {
+            document.getElementById('user-info').style.display = 'block';
+            document.getElementById('nav-user').textContent = `Welcome, ${localStorage.getItem('user')}`;
+            document.getElementById('login-nav').style.display = 'none';
+            document.getElementById('register-nav').style.display = 'none';
+        } else {
+            document.getElementById('login-nav').style.display = 'block';
+            document.getElementById('register-nav').style.display = 'block';
+            document.getElementById('user-info').style.display = 'none';
+        }
+    }
+}
+
+// Login function
+function loginUser() {
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
+
+    if (username && password) {
+        localStorage.setItem('user', username);  // Save username to local storage
+        showSection('home');  // Switch to home section
+    } else {
+        document.querySelector('.form-message').textContent = 'Please enter both username and password.';
+    }
+}
+
+// Logout function
+function logoutUser() {
+    localStorage.removeItem('user');  // Remove user from local storage
+    showSection('home');  // Switch to home section
+}
+
+// Register function
+function registerUser() {
+    const username = document.getElementById('register-username').value;
+    const password = document.getElementById('register-password').value;
+
+    if (username && password) {
+        localStorage.setItem('user', username);  // Save username
+        showSection('home');  // Switch to home section
+    } else {
+        document.querySelector('.form-message').textContent = 'Please fill in all fields.';
+    }
+}
+
+// Initialize by showing the home section
+showSection('home');
+
+    </script>
+</body>
+</html>
